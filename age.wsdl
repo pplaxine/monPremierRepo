@@ -67,7 +67,7 @@
 	<!-- décrit comment opérations(def dans portType) invoquées sur réseau -->
 	<binding name="AgeServicePortBinding" type="tns:AgeService">
 		<!-- type de communication, transport = protocole http ,style = document/RPC -->
-		<soap:binding transport="http://schema.xmlsoap.org/soap/http" style="document"/>
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
 		
 		<!-- encodage literal (mise en forme selon def spécifiées pour structurer message SOAP renvoyés) ou encoded -->
 		<operation name="getAge">
