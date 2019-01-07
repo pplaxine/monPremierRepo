@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- xmlns:soap : 			Conv de nommage + structure de certain éléments (ex <body> <operation>)  -->
+<!-- targetNamespace : 	Espace de nom faisant ref à ce doc -->
+<!-- xmlns:tns : 		TargetNamespace auquel on attribue préfixe tns, le prefixe pemettra d'y faire ref pour indiquer que tel tag appartient à notre doc targetNamespace et tns doivent être les mêmes -->
+<!-- xmlns : 			Namespace par défault si élément appartient à aucun -->
+<!-- name : 			nom donné au service -->
+<definitions
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"	
+     targetNamespace="http://ageservice/"
+     xmlns:tns="http://ageservice/"
+     xmlns="http://schemas.xmlsoap.org/wsdl/"
+     name="AgeService">
+     
+    <!-- ====================================================================== -->
+     
+	<types>
+		<!-- xmlns:xs : permet récup balise xmlSchema (ainsi notre structure doit correspondre à structure def par XMLShema) -->
+		<xs:schema 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+					targetNamespace="http://ageservice/">
+			
+			<xs:element name="getAge" type="tns:getAge"/>
+			<xs:element name="getAgeResponse" type="tns:getAgeResponse"/>
+			
+			<!-- complexType = detaile la structure et type de contenu de l'élément -->
+			<xs:complexType name="getAge">
+				<!-- sequence = éléments doivent apparaître dans l'ordre, autres = <xs:all> ordre pas important et <xs:choice> un seul élément parmis liste accepté -->
+				<xs:sequence>
+					<xs:element name="arg0" type="xs:int" minOccurs="0"/>
+				</xs:sequence>
+			</xs:complexType>
+			
+			<xs:complexType name="getAgeResponse">
+				<xs:sequence>
+					<xs:element name="return" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:complexType>
+					
+		</xs:schema>
+	</types>
+	
+	<!-- ====================================================================== -->
+	
+	<!-- message = param passé à opération(méthodes) -->
+	<message name="getAge">
+		<part name="parameters" element="tns:getAge"/>
+	</message>
+	
+	<message name="getAgeResponse">
+		<part name="parameters" element="tns:getAge"/>
+	</message>
+	
+	<!-- ====================================================================== -->
+	
+	<!-- les methodes dispo dans le service accessible à l'extérieur -->
+	<portType name="AgeService">
+		<!-- nom souhaité pour la methode -->
+		<operation name="getAge">
+			<!-- param d'entrée de la méthode -->
+			<input message="tns:getAge"/>
+			<!-- param de sorti -->
+			<output message="tns:getAgeResponse"/>
+		</operation>
+	</portType>
+	
+	<!-- ====================================================================== -->
+	<!-- décrit comment opérations(def dans portType) invoquées sur réseau -->
+	<binding name="AgeServicePortBinding" type="tns:AgeService">
+		<!-- type de communication, transport = protocole http ,style = document/RPC -->
+		<soap:binding transport="http://schema.xmlsoap.org/soap/http" style="document"/>
+		
+		<!-- encodage literal (mise en forme selon def spécifiées pour structurer message SOAP renvoyés) ou encoded -->
+		<operation name="getAge">
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	
+	<!-- url pour appeler les opération, ici qu'une opération à l'adresse http://localhost:8080/Age/getAge -->
+	<service name="getAge">
+		<port name="AgeServicePort" binding="tns:AgeServicePortBinding">
+			<soap:address location="http://localhost:8080/Age/getAge"/>
+		</port>
+	</service>
+     
+ </definitions>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
